@@ -17,40 +17,77 @@ namespace ZorkClass
         public Item item1 = new Item();
         public Item item2 = new Item();
         public Item item3 = new Item();
+        //if the player has been to the room before
+        public Boolean hasVisit = false;
+        //if the player is currently in the room
+        public Boolean isIn = false;
         public Door door = new Door();
         //don't have it set to static, otherwise it can't be called
-        public void Display ()
+        public void Display (Room room, Item item1, Item item2, Item item3)
         {
-            description.Print();
+            room.description.Print(room);
+            String keyIn = Input.getInput();
+            String parsed = Input.Parser(keyIn);
+            if (keyIn.Equals(item1.name))
+            {
+                item1.playerHas = true;
+                Console.WriteLine("You pick up the " + item1.name);
+            }
+            if (keyIn.Equals(item2.name))
+            {
+                item2.playerHas = true;
+                Console.WriteLine("You pick up the " + item2.name);
+            }
+            if (keyIn.Equals(item3.name))
+            {
+                item3.playerHas = true;
+                Console.WriteLine("You pick up the " + item3.name);
+            }
+            if (keyIn.Equals(room.door.CmdDir))
+            {
+                room.next.Display();
+            }
+            if (parsed.Equals("look"))
         }
     }
     public class Description
     {
         public String start = "start";
-        public Item item1 = null;
         public String join = null;
-        public Item item2 = null;
         public String end = "end";
-        public void Print (Location location)
+        public void Print (Room room)
         {
-            if()
+            if (room.hasVisit)
+            {
+                if (room.isIn)
+                {
+                    String print = "You are in " + room.description.start + "There is " + room.item1.name + room.item1.location + room.description.join + room.item2.name + room.item2.location + room.description.join + room.item3.name + room.item3.location + room.description.join + room.door.position;
+                }
+            }
+            else
+            {
+                Console.WriteLine("You enter " + room.description.start + "There is " + room.item1.name + room.item1.location + room.door.position);
+            }
         }
     }
     public class Item
     {
-        public String name = null;
-        public String description = null;
-        public String location = null;
+        public String name = "";
+        public String description = "";
+        public String location = "";
+        //if the player has the object
+        public Boolean playerHas = false;
     }
     public class Door
     {
-        public String pre = null;
         public String position = null;
+        public String CmdDir = null;
     }
-    public class Location
+    public class Player
     {
-        public Boolean hasVisit = false;
-        public String name = null;
+        public String name;
+        public int hp;
+        public int dmg;
     }
     class Program
     {
@@ -69,22 +106,23 @@ namespace ZorkClass
                 //Kitchen.Item1 = BedroomBottle;
                 //Kitchen.door = KitchenBedroom;
                 //Kitchen.prev is null
-                Kitchen.description.start = "a dilapated kitchen";
-                Kitchen.item1.name = "bottle";
-                Kitchen.item1.location = "on the table";
-                Kitchen.door.position = "in front of you";
+                Kitchen.description.start = "an old dilapated kitchen. ";
+                Kitchen.item1.name = "a bottle ";
+                Kitchen.item1.location = "on the table ";
+                Kitchen.door.position = "a door in front of you.";
+                Kitchen.door.CmdDir = "forward";
                 Console.WriteLine("welcome!");
                 Console.WriteLine("I hope that this works!");
                 String KeyIn = Input.getInput();
                 if (KeyIn.Equals("potatoes"))
                 {
                     Console.WriteLine("Time to have fun!");
-                    Kitchen.Display();
+                    Kitchen.Display(Kitchen);
                 }
                 else
                 {
                     Console.WriteLine("Good luck!");
-                    Kitchen.Display();
+                    Kitchen.Display(Kitchen);
                 }
             }
         }
