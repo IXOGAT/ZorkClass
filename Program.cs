@@ -30,7 +30,10 @@ namespace ZorkClass
         {
             Console.WriteLine(room.name);
             room.isIn = true;
-            room.description.Print(room);
+            if (hasVisit != true)
+            {
+                Console.WriteLine("You enter " + room.description.start + "There is " + room.item1.description + room.item1.location + room.description.join + room.item2.description + room.item2.location + room.description.join + room.item3.description + room.item3.location + room.description.join + room.door.position);
+            }
             room.hasVisit = true;
             String keyIn = Input.getInput();
             String parsed = Input.Parser(keyIn);
@@ -39,30 +42,31 @@ namespace ZorkClass
                 room.item1.playerHas = true;
                 Console.WriteLine("You pick up the " + room.item1.name);
             }
-            if (parsed.Equals(room.item2.name))
+            else if (parsed.Equals(room.item2.name))
             {
                 room.item2.playerHas = true;
                 Console.WriteLine("You pick up the " + room.item2.name);
             }
-            if (parsed.Equals(room.item3.name))
+            else if (parsed.Equals(room.item3.name))
             {
                 room.item3.playerHas = true;
                 Console.WriteLine("You pick up the " + room.item3.name);
             }
-            if (parsed.Equals(room.door.CmdDir))
+            else if (parsed.Equals(room.door.CmdDir))
             {
                 room.isIn = false;
                 room.forward.Display(room.forward, player);
             }
-            if (parsed.Equals("look"))
+            else if (parsed.Equals("look"))
             {
+                //not executing this code when run
                 room.description.Print(room);
             }
-            if (parsed.Equals("quit"))
+            else if (parsed.Equals("quit"))
             {
                 RunStat.IsRunning = false;
             }
-            if (parsed.Equals("inv"))
+            else if (parsed.Equals("inv"))
             {
                 player.PrintInv();
             }
@@ -83,11 +87,11 @@ namespace ZorkClass
             {
                 if (room.isIn)
                 {
-                    String print = "You are in " + room.description.start + "There is " + room.item1.description + room.item1.location + room.description.join + room.item2.description + room.item2.location + room.description.join + room.item3.description + room.item3.location + room.description.join + room.door.position;
+                    Console.WriteLine("You are in " + room.description.start + "There is " + room.item1.description + room.item1.location + room.description.join + room.item2.description + room.item2.location + room.description.join + room.item3.description + room.item3.location + room.description.join + room.door.position);
                 }
                 else
                 {
-                    String print = "You enter " + room.description.start + "There is " + room.item1.description + room.item1.location + room.description.join + room.item2.description + room.item2.location + room.description.join + room.item3.description + room.item3.location + room.description.join + room.door.position;
+                    Console.WriteLine("You enter " + room.description.start + "There is " + room.item1.description + room.item1.location + room.description.join + room.item2.description + room.item2.location + room.description.join + room.item3.description + room.item3.location + room.description.join + room.door.position);
                 }
             }
             else
