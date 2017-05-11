@@ -37,17 +37,17 @@ namespace ZorkClass
             room.hasVisit = true;
             String keyIn = Input.getInput();
             String parsed = Input.Parser(keyIn);
-            if (parsed.Equals(room.item1.name))
+            if (keyIn.Contains(room.item1.name))
             {
                 room.item1.playerHas = true;
                 Console.WriteLine("You pick up the " + room.item1.name);
             }
-            else if (parsed.Equals(room.item2.name))
+            else if (keyIn.Contains(room.item2.name))
             {
                 room.item2.playerHas = true;
                 Console.WriteLine("You pick up the " + room.item2.name);
             }
-            else if (parsed.Equals(room.item3.name))
+            else if (keyIn.Contains(room.item3.name))
             {
                 room.item3.playerHas = true;
                 Console.WriteLine("You pick up the " + room.item3.name);
@@ -102,7 +102,8 @@ namespace ZorkClass
     }
     public class Item
     {
-        public String name = "";
+        public int = Random(50);
+        public String name = Random(100);
         public String description = "";
         public String location = "";
         //if the player has the object
@@ -170,10 +171,13 @@ namespace ZorkClass
                 Kitchen.door.position = "a door in front of you.";
                 Kitchen.door.CmdDir = "forward";
             }
-            Room Bedroom = new Room()
+            Room Bedroom = new Room();
             {
-                name = "BEDROOM"
-            };
+                Bedroom.name = "BEDROOM";
+                Bedroom.description.start = "a dark and nearly empty bedroom with a table in the middle and a bed pushed to the side.";
+                Bedroom.item1.name = "wool sack";
+
+            }
             Kitchen.forward = Bedroom;
 
 
