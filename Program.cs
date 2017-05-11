@@ -29,79 +29,86 @@ namespace ZorkClass
         //don't have it set to static, otherwise it can't be called
         public void Display (Room room, Player player)
         {
-            Console.WriteLine(room.name);
-            room.isIn = true;
-            if (hasVisit != true)
+            while (RunStat.IsRunning && player.hp > 0)
             {
-                Console.WriteLine("You enter " + room.description.start + "There is " + room.item1.description + room.item1.location + room.description.join + room.item2.description + room.item2.location + room.description.join + room.item3.description + room.item3.location + room.description.join + room.door.position);
-            }
-            room.hasVisit = true;
-            String keyIn = Input.getInput();
-            String parsed = Input.Parser(keyIn);
-            if (keyIn.Contains(room.item1.name))
-            {
-                room.item1.playerHas = true;
-                Console.WriteLine("You pick up the " + room.item1.name);
-                room.item1.description = "";
-                room.item1.location = "";
-            }
-            else if (keyIn.Contains(room.item2.name))
-            {
-                room.item2.playerHas = true;
-                Console.WriteLine("You pick up the " + room.item2.name);
-                room.item2.description = "";
-                room.item2.location = "";
-            }
-            else if (keyIn.Contains(room.item3.name))
-            {
-                room.item3.playerHas = true;
-                Console.WriteLine("You pick up the " + room.item3.name);
-                room.item3.description = "";
-                room.item3.location = "";
-            }
-            else if (keyIn.Equals(room.door.CmdDir))
-            {
-                room.isIn = false;
-                if (keyIn.Equals("left"))
+                Console.WriteLine(room.name);
+                room.isIn = true;
+                if (hasVisit != true)
                 {
-                    room.left.Display(room.left, player);
+                    Console.WriteLine("You enter " + room.description.start + "There is " + room.item1.description + room.item1.location + room.item2.description + room.item2.location + room.item3.description + room.item3.location + room.door.position);
                 }
-                if (keyIn.Equals("right"))
+                room.hasVisit = true;
+                String keyIn = Input.getInput();
+                String parsed = Input.Parser(keyIn);
+                if (keyIn.Contains(room.item1.name))
                 {
-                    room.right.Display(room.right, player);
+                    room.item1.playerHas = true;
+                    Console.WriteLine("You pick up the " + room.item1.name);
+                    room.item1.description = "";
+                    room.item1.location = "";
                 }
-                if (keyIn.Equals("forward"))
+                else if (keyIn.Contains(room.item2.name))
                 {
-                    room.forward.Display(room.forward, player);
+                    room.item2.playerHas = true;
+                    Console.WriteLine("You pick up the " + room.item2.name);
+                    room.item2.description = "";
+                    room.item2.location = "";
                 }
-                if (keyIn.Equals("back"))
+                else if (keyIn.Contains(room.item3.name))
                 {
-                    room.back.Display(room.back, player);
+                    room.item3.playerHas = true;
+                    Console.WriteLine("You pick up the " + room.item3.name);
+                    room.item3.description = "";
+                    room.item3.location = "";
                 }
-            }
-            else if (parsed.Equals("look"))
-            {
-                //not executing this code when run
-                room.description.Print(room);
-            }
-            else if (parsed.Equals("quit"))
-            {
-                RunStat.IsRunning = false;
-            }
-            else if (parsed.Equals("inv"))
-            {
-                player.PrintInv(room, player);
-            }
-            else
-            {
-                Console.WriteLine("err, not understood");
+                else if (keyIn.Contains(room.door.CmdDir))
+                {
+                    room.isIn = false;
+                    if (keyIn.Contains("left"))
+                    {
+                        room.left.Display(room.left, player);
+                    }
+                    if (keyIn.Contains("right"))
+                    {
+                        room.right.Display(room.right, player);
+                    }
+                    if (keyIn.Contains("forward"))
+                    {
+                        room.forward.Display(room.forward, player);
+                    }
+                    if (keyIn.Contains("back"))
+                    {
+                        room.back.Display(room.back, player);
+                    }
+                }
+                else if (parsed.Equals("look"))
+                {
+                    //not executing this code when run
+                    room.description.Print(room);
+                }
+                else if (parsed.Equals("quit"))
+                {
+                    RunStat.IsRunning = false;
+                }
+                else if (parsed.Equals("inv"))
+                {
+                    player.PrintInv(room, player);
+                }
+                else if (parsed.Equals("clr"))
+                {
+                    Console.Clear();
+                    GC.Collect();
+                }
+                else
+                {
+                    Console.WriteLine("err, not understood");
+                }
             }
         }
     }
     public class Description
     {
         public String start = "start";
-        public String join = null;
         public String end = "end";
         public void Print (Room room)
         {
@@ -109,11 +116,11 @@ namespace ZorkClass
             {
                 if (room.isIn)
                 {
-                    Console.WriteLine("You are in " + room.description.start + "There is " + room.item1.description + room.item1.location + room.description.join + room.item2.description + room.item2.location + room.description.join + room.item3.description + room.item3.location + room.description.join + room.door.position);
+                    Console.WriteLine("You are in " + room.description.start + "There is " + room.item1.description + room.item1.location + room.item2.description + room.item2.location + room.item3.description + room.item3.location + room.door.position);
                 }
                 else
                 {
-                    Console.WriteLine("You enter " + room.description.start + "There is " + room.item1.description + room.item1.location + room.description.join + room.item2.description + room.item2.location + room.description.join + room.item3.description + room.item3.location + room.description.join + room.door.position);
+                    Console.WriteLine("You enter " + room.description.start + "There is " + room.item1.description + room.item1.location + room.item2.description + room.item2.location + room.item3.description + room.item3.location + room.door.position);
                 }
             }
             else
@@ -259,7 +266,7 @@ namespace ZorkClass
                 Kitchen.description.start = "an old dilapated kitchen. ";
                 Kitchen.item1.name = "bottle";
                 Kitchen.item1.description = "a bottle ";
-                Kitchen.item1.location = "on the table ";
+                Kitchen.item1.location = "on the table and ";
                 Kitchen.door.position = "a door in front of you.";
                 Kitchen.door.CmdDir = "forward";
             }
@@ -293,9 +300,18 @@ namespace ZorkClass
             };
             Console.WriteLine("welcome!");
             Console.WriteLine("I hope that this works!");
-            Console.WriteLine("press any key and then enter");
-            String KeyIn = Input.getInput();
-            Console.WriteLine("Time to have fun!");
+            //Console.WriteLine("before you can get started, what is your name?");
+            //String KeyIn = Input.getInput();
+            //KeyIn = player.name;
+            //Console.WriteLine("OK, your name is " + player.name + "?");
+            Console.WriteLine("Oh! I almost forgot! All the commands that you will need to know to win!");
+            Console.WriteLine("Type 'quit' at any time to quit.");
+            Console.WriteLine("Type 'inventory' at any time to see what items you possess.");
+            Console.WriteLine("Type 'look around' at any time to see what is around you.");
+            Console.WriteLine("Type 'has been' to at any time to see where you have been so far.");
+            Console.WriteLine("Type 'back' to return to the previous room (if you can)");
+            Console.WriteLine("Type 'clear' to clear the console.");
+            Console.WriteLine("Good luck!");
             while (RunStat.IsRunning)
             {
                 Kitchen.Display(Kitchen, player);
