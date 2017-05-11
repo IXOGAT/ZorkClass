@@ -25,6 +25,7 @@ namespace ZorkClass
         //if the player is currently in the room
         public Boolean isIn = false;
         public Door door = new Door();
+        public Door door2 = new Door();
         //don't have it set to static, otherwise it can't be called
         public void Display (Room room, Player player)
         {
@@ -52,10 +53,25 @@ namespace ZorkClass
                 room.item3.playerHas = true;
                 Console.WriteLine("You pick up the " + room.item3.name);
             }
-            else if (parsed.Equals(room.door.CmdDir))
+            else if (keyIn.Equals(room.door.CmdDir))
             {
                 room.isIn = false;
-                room.forward.Display(room.forward, player);
+                if (keyIn.Equals("left"))
+                {
+                    room.left.Display(room.left, player);
+                }
+                if (keyIn.Equals("right"))
+                {
+                    room.right.Display(room.right, player);
+                }
+                if (keyIn.Equals("forward"))
+                {
+                    room.forward.Display(room.forward, player);
+                }
+                if (keyIn.Equals("back"))
+                {
+                    room.back.Display(room.back, player);
+                }
             }
             else if (parsed.Equals("look"))
             {
@@ -102,8 +118,8 @@ namespace ZorkClass
     }
     public class Item
     {
-        public int = Random(50);
-        public String name = Random(100);
+        //really big random number to prevent null pointer exception
+        public String name = "2345678767381749172341234723";
         public String description = "";
         public String location = "";
         //if the player has the object
@@ -111,8 +127,9 @@ namespace ZorkClass
     }
     public class Door
     {
-        public String position = null;
-        public String CmdDir = null;
+        //really big random number to prevent null pointer exception
+        public String position = "1234567892312412343345209";
+        public String CmdDir = "2345671902384127349891234";
     }
     public class Player
     {
@@ -174,13 +191,26 @@ namespace ZorkClass
             Room Bedroom = new Room();
             {
                 Bedroom.name = "BEDROOM";
-                Bedroom.description.start = "a dark and nearly empty bedroom with a table in the middle and a bed pushed to the side.";
-                Bedroom.item1.name = "wool sack";
-
+                Bedroom.description.start = "a dark and nearly empty bedroom with a table in the middle and a bed pushed to the side. ";
+                Bedroom.item1.name = "sack";
+                Bedroom.item1.description = "a wool sack ";
+                Bedroom.item1.location = "on the table ";
+                Bedroom.door.position = "a door to your left.";
+                Bedroom.door.CmdDir = "left";
             }
+            Room Closet = new Room();
+            {
+                Closet.name = "CLOSET";
+                Closet.description.start = "a dimly lit closet .";
+                Closet.item1.name = "flashlight";
+                Closet.item1.description = "a flashlight ";
+                Closet.item1.location = "on the floor ";
+                Closet.door.position = "a trapdoor in the floor.";
+                Closet.door.CmdDir = "below";
+            }
+
             Kitchen.forward = Bedroom;
-
-
+            Bedroom.left = Closet;
             //player generation
             Player player = new Player()
             {
