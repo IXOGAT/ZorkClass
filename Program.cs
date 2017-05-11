@@ -42,16 +42,22 @@ namespace ZorkClass
             {
                 room.item1.playerHas = true;
                 Console.WriteLine("You pick up the " + room.item1.name);
+                room.item1.description = "";
+                room.item1.location = "";
             }
             else if (keyIn.Contains(room.item2.name))
             {
                 room.item2.playerHas = true;
                 Console.WriteLine("You pick up the " + room.item2.name);
+                room.item2.description = "";
+                room.item2.location = "";
             }
             else if (keyIn.Contains(room.item3.name))
             {
                 room.item3.playerHas = true;
                 Console.WriteLine("You pick up the " + room.item3.name);
+                room.item3.description = "";
+                room.item3.location = "";
             }
             else if (keyIn.Equals(room.door.CmdDir))
             {
@@ -84,7 +90,7 @@ namespace ZorkClass
             }
             else if (parsed.Equals("inv"))
             {
-                player.PrintInv();
+                player.PrintInv(room, player);
             }
             else
             {
@@ -135,9 +141,78 @@ namespace ZorkClass
     {
         public String name;
         public int hp;
-        public void PrintInv()
+        public void PrintInv(Room start, Player player)
         {
             //something that scans through all the rooms or items, and reports if a player has it or not
+            Console.WriteLine(start.name + "duh!");
+            Boolean isRunning = true;
+            while (isRunning)
+            {
+                while (start.forward != null && start.forward.hasVisit)
+                {
+                    if (start.forward.item1.playerHas)
+                    {
+                        Console.WriteLine(start.forward.item1.name);
+                    }
+                    if (start.forward.item2.playerHas)
+                    {
+                        Console.WriteLine(start.forward.item2.name);
+                    }
+                    if (start.forward.item3.playerHas)
+                    {
+                        Console.WriteLine(start.forward.item3.name);
+                    }
+                    player.PrintInv(start.forward, player);
+                }
+                while (start.left != null && start.left.hasVisit)
+                {
+                    if (start.left.item1.playerHas)
+                    {
+                        Console.WriteLine(start.left.item1.name);
+                    }
+                    if (start.left.item2.playerHas)
+                    {
+                        Console.WriteLine(start.left.item2.name);
+                    }
+                    if (start.left.item3.playerHas)
+                    {
+                        Console.WriteLine(start.left.item3.name);
+                    }
+                    player.PrintInv(start.left, player);
+                }
+                while(start.right != null && start.right.hasVisit)
+                {
+                    if (start.right.item1.playerHas)
+                    {
+                        Console.WriteLine(start.right.item1.name);
+                    }
+                    if (start.right.item2.playerHas)
+                    {
+                        Console.WriteLine(start.right.item2.name);
+                    }
+                    if (start.right.item3.playerHas)
+                    {
+                        Console.WriteLine(start.right.item3.name);
+                    }
+                    player.PrintInv(start.right, player);
+                }
+                while(start.back != null && start.back.hasVisit)
+                {
+                    if (start.back.item1.playerHas)
+                    {
+                        Console.WriteLine(start.back.item1.name);
+                    }
+                    if (start.back.item2.playerHas)
+                    {
+                        Console.WriteLine(start.back.item2.name);
+                    }
+                    if (start.back.item3.playerHas)
+                    {
+                        Console.WriteLine(start.back.item3.name);
+                    }
+                    player.PrintInv(start.back, player);
+                }
+            }
         }
         public void PrintHis(Room start, Player player)
         {
